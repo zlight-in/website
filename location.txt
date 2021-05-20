@@ -1,5 +1,5 @@
-#def search(items):
-    data = []
+def search(items):
+    data = [
     ite = {}
     ite2 = {}
     pricelist = {}
