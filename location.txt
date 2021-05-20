@@ -33,7 +33,7 @@ def search(items):
         else:
             medianprice = pricelist[int(j["productIdentifier"])][int(buslength/2)]
         offer = round(100*(medianprice - min_price[j["productIdentifier"]])/medianprice,2)
-        ite2.update({int(j["productIdentifier"]):{"productName":j['productName'],"productIdentifier":j["productIdentifier"],"avgprice":medianprice,"offer":offer,'sellers':list(itertools.chain.from_iterable(ite[j["productIdentifier"]]))}})
+        ite2.update({int(j["productIdentifier"]):{"location":"Puthenvelikkara","pincode":111111,productName":j['productName'],"productIdentifier":j["productIdentifier"],"avgprice":medianprice,"offer":offer,'sellers':list(itertools.chain.from_iterable(ite[j["productIdentifier"]]))}})
     data = []
     for i in ite2:
         data.append(ite2[i])
