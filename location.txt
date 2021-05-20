@@ -3,28 +3,36 @@ def search(items):
     ite = {}
     ite2 = {}
     pricelist = {}
+    minpricelist = []
+    min_price = {}
     length = len(items)
     for k in items:
+        if k["productIdentifier"] not in minpricelist:
+            min_price.update({k["productIdentifier"]:float(k["discountedPrice"])})
+            minpricelist.append(k["productIdentifier"])
         try:
             pricelist[int(k["productIdentifier"])].append(k["productPrice"])
-            ite[int(k["productIdentifier"])].append([{"businessIdentifier":k["businessIdentifier"],'businessName':k['businessName'],'businessIdentifier':k['businessIdentifier'],"quantityType":k["quantityType"],"discountedPrice":k["discountedPrice"],"rating":k["rating"],"productPrice":k["productPrice"]}])
+            ite[int(k["productIdentifier"])].append([{"businessIdentifier":k["businessIdentifier"],'businessName':k['businessName'],'businessIdentifier':k['businessIdentifier'],"quantityType":k["quantityType"],"discountedPrice":k["discountedPrice"],"rating":k["rating"],"markedPrice":float(k["productPrice"]),"selleroffer":round((100*(float(k["productPrice"])- float(k["discountedPrice"]))/float(k["productPrice"])),2)}])
         except:
             ite[int(k["productIdentifier"])] = []
             pricelist[int(k["productIdentifier"])] = []
             pricelist[int(k["productIdentifier"])].append(k["productPrice"])
-            ite[int(k["productIdentifier"])].append([{"businessIdentifier":k["businessIdentifier"],'businessName':k['businessName'],'businessIdentifier':k['businessIdentifier'],"quantityType":k["quantityType"],"discountedPrice":k["discountedPrice"],"rating":k["rating"],"productPrice":k["productPrice"]}])
+            ite[int(k["productIdentifier"])].append([{"businessIdentifier":k["businessIdentifier"],'businessName':k['businessName'],'businessIdentifier':k['businessIdentifier'],"quantityType":k["quantityType"],"discountedPrice":k["discountedPrice"],"rating":k["rating"],"markedPrice":float(k["productPrice"]),"selleroffer":round((100*(float(k["productPrice"])- float(k["discountedPrice"]))/float(k["productPrice"])),2)}])
     print(length)
+    
     for i in range(length):
         j = items[i]
         buslength = len(ite[j["productIdentifier"]])
         print((buslength))
+        
+        
         if buslength%2 == 0:
             print("here")
-            medianprice = (float(pricelist[int(j["productIdentifier"])][int(buslength/2)+1]) + float(pricelist[int(j["productIdentifier"])][int(buslength/2)]))/2
+            medianprice = round((float(pricelist[int(j["productIdentifier"])][int(buslength/2)+1]) + float(pricelist[int(j["productIdentifier"])][int(buslength/2)]))/2)
         else:
             medianprice = pricelist[int(j["productIdentifier"])][int(buslength/2)]
-        ite2.update({int(j["productIdentifier"]):{"productName":j['productName'],"productIdentifier":j["productIdentifier"],"avgprice":medianprice,'sellers':ite[j["productIdentifier"]]}})
-        #productlist.append(j["productIdentifier"])
+        offer = round(100*(medianprice - min_price[j["productIdentifier"]])/medianprice,2)
+        ite2.update({int(j["productIdentifier"]):{"productName":j['productName'],"productIdentifier":j["productIdentifier"],"avgprice":medianprice,"offer":offer,'sellers':ite[j["productIdentifier"]]}})
     data = []
     for i in ite2:
         data.append(ite2[i])
